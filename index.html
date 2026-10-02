@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Site demonstrativo da Prisma Estética Automotiva, em Vila Velha–ES.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#173f36">
+  <title>Prisma Estética Automotiva | Vila Velha–ES</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="preconnect" href="https://images.pexels.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23173f36'/%3E%3Cpath d='M16 44V20h17c9 0 15 4 15 11s-6 11-15 11H24v2zM24 27v8h9c4 0 7-1 7-4s-3-4-7-4z' fill='%23f4f1e9'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --ink: #242724;
+      --muted: #676b65;
+      --paper: #f4f1e9;
+      --paper-2: #e9e5da;
+      --green: #173f36;
+      --green-deep: #0f2e28;
+      --line: rgba(36, 39, 36, .18);
+      --white: #fffdf7;
+      --radius: 1.15rem;
+      --shadow: 0 24px 70px rgba(19, 34, 29, .14);
+      --page: min(1180px, calc(100vw - 3rem));
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    body.menu-open { overflow: hidden; }
+    img { display: block; width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+    :focus-visible { outline: 3px solid #c8a96e; outline-offset: 4px; }
+    ::selection { color: var(--white); background: var(--green); }
+
+    .skip-link {
+      position: fixed; left: 1rem; top: -5rem; z-index: 1000;
+      padding: .75rem 1rem; color: var(--white); background: var(--green);
+      border-radius: .5rem; transition: top .2s ease;
+    }
+    .skip-link:focus { top: 1rem; }
+    .container { width: var(--page); margin-inline: auto; }
+    .eyebrow {
+      margin: 0 0 1rem; color: var(--green); font: 600 .78rem/1.2 "Manrope", sans-serif;
+      letter-spacing: .16em; text-transform: uppercase;
+    }
+    .eyebrow.light { color: #c9ddd5; }
+    h1, h2, h3 { margin: 0; font-family: "Manrope", sans-serif; line-height: 1.05; letter-spacing: -.045em; }
+    h1 { max-width: 11ch; font-size: clamp(3.25rem, 7vw, 7rem); font-weight: 500; }
+    h2 { max-width: 13ch; font-size: clamp(2.3rem, 4.4vw, 4.6rem); font-weight: 500; }
+    h3 { font-size: clamp(1.3rem, 2vw, 1.8rem); font-weight: 600; }
+    p { margin: 0; }
+
+    .demo-strip {
+      min-height: 2rem; padding: .38rem 1rem; color: #dce7e2; background: var(--green-deep);
+      font-size: .78rem; letter-spacing: .04em; text-align: center;
+    }
+    .site-header {
+      position: absolute; inset: 2rem 0 auto; z-index: 20;
+      color: var(--white);
+    }
+    .nav-shell {
+      display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+      min-height: 4.8rem; padding: 0 1.1rem 0 1.35rem;
+      border: 1px solid rgba(255,255,255,.2); border-radius: 999px;
+      background: rgba(17, 27, 24, .62); box-shadow: 0 10px 40px rgba(0,0,0,.12);
+      backdrop-filter: blur(12px);
+    }
+    .brand { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: .7rem; white-space: nowrap; }
+    .brand-mark {
+      display: grid; width: 2rem; height: 2rem; place-items: center;
+      border: 1px solid rgba(255,255,255,.55); border-radius: 50%; font: 600 .82rem/1 "Manrope", sans-serif;
+    }
+    .brand-copy { display: grid; font-family: "Manrope", sans-serif; line-height: 1; }
+    .brand-copy strong { font-size: .98rem; letter-spacing: .04em; text-transform: uppercase; }
+    .brand-copy small { margin-top: .3rem; color: rgba(255,255,255,.7); font-size: .63rem; letter-spacing: .15em; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: clamp(1.1rem, 2.6vw, 2.2rem); }
+    .nav-links a { position: relative; font-size: .9rem; }
+    .nav-links a:not(.btn)::after {
+      position: absolute; right: 0; bottom: -.3rem; left: 0; height: 1px; content: "";
+      background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .25s ease;
+    }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+    .menu-toggle {
+      display: none; width: 2.9rem; height: 2.9rem; padding: 0; border: 0; color: inherit;
+      background: transparent; cursor: pointer;
+    }
+    .menu-toggle span, .menu-toggle::before, .menu-toggle::after {
+      display: block; width: 1.5rem; height: 1px; margin: .3rem auto; content: ""; background: currentColor;
+      transition: transform .25s ease, opacity .2s ease;
+    }
+    .menu-toggle[aria-expanded="true"] span { opacity: 0; }
+    .menu-toggle[aria-expanded="true"]::before { transform: translateY(.4rem) rotate(45deg); }
+    .menu-toggle[aria-expanded="true"]::after { transform: translateY(-.4rem) rotate(-45deg); }
+
+    .btn {
+      display: inline-flex; min-height: 3.15rem; align-items: center; justify-content: center; gap: .7rem;
+      padding: .8rem 1.35rem; border: 1px solid transparent; border-radius: 999px;
+      font: 600 .88rem/1 "Manrope", sans-serif; cursor: pointer; transition: transform .2s ease, background .2s ease, color .2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-light { color: var(--green-deep); background: var(--white); }
+    .btn-light:hover { background: #e7efe9; }
+    .btn-green { color: var(--white); background: var(--green); }
+    .btn-green:hover { background: var(--green-deep); }
+    .btn-outline { color: var(--white); border-color: rgba(255,255,255,.5); background: transparent; }
+    .btn-outline:hover { color: var(--green-deep); background: var(--white); }
+    .button-icon { width: 1rem; height: 1rem; fill: currentColor; }
+
+    .hero {
+      position: relative; display: grid; min-height: min(900px, 96vh); align-items: end;
+      color: var(--white); background: #17201d; isolation: isolate;
+    }
+    .hero-media, .hero-media::after { position: absolute; inset: 0; }
+    .hero-media { z-index: -2; overflow: hidden; }
+    .hero-media img { height: 100%; object-fit: cover; object-position: 57% center; transform: scale(1.01); }
+    .hero-media::after {
+      content: ""; background: linear-gradient(90deg, rgba(8,18,15,.86) 0%, rgba(8,18,15,.48) 49%, rgba(8,18,15,.16) 75%), linear-gradient(0deg, rgba(8,18,15,.7) 0%, transparent 48%);
+    }
+    .hero-content { padding-block: clamp(11rem, 25vh, 16rem) clamp(3.5rem, 8vh, 6rem); }
+    .hero-copy { display: grid; max-width: 760px; gap: 1.5rem; }
+    .hero-copy > p:not(.eyebrow) { max-width: 38rem; color: rgba(255,255,255,.8); font-size: clamp(1.05rem, 1.7vw, 1.24rem); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: .5rem; }
+    .hero-foot {
+      display: flex; align-items: end; justify-content: space-between; gap: 2rem;
+      margin-top: clamp(3rem, 8vh, 6rem); padding-top: 1.3rem; border-top: 1px solid rgba(255,255,255,.28);
+    }
+    .hero-foot p { color: rgba(255,255,255,.7); font-size: .86rem; }
+    .hero-foot strong { display: block; color: var(--white); font: 500 1rem/1.4 "Manrope", sans-serif; }
+
+    section { padding-block: clamp(5rem, 10vw, 9rem); }
+    .section-lead { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(260px, .75fr); gap: 4rem; align-items: end; }
+    .section-lead .intro { max-width: 36rem; color: var(--muted); font-size: 1.08rem; }
+
+    .services { background: var(--paper); }
+    .service-list { margin-top: 5rem; border-top: 1px solid var(--line); }
+    .service-row {
+      display: grid; grid-template-columns: 4.25rem minmax(220px, .8fr) minmax(300px, 1.2fr); gap: 2rem;
+      align-items: start; padding: 2.2rem 0; border-bottom: 1px solid var(--line);
+    }
+    .service-no { color: var(--green); font: 500 .8rem/1.6 "Manrope", sans-serif; letter-spacing: .12em; }
+    .service-row h3 { padding-top: .05rem; }
+    .service-row p { max-width: 35rem; color: var(--muted); }
+
+    .craft { overflow: hidden; color: var(--white); background: var(--green); }
+    .craft-layout { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem, 8vw, 8rem); align-items: center; }
+    .craft-photo { position: relative; }
+    .craft-photo img { aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); }
+    .craft-photo::before {
+      position: absolute; right: -1.5rem; bottom: -1.5rem; z-index: -1; width: 45%; aspect-ratio: 1; content: "";
+      border: 1px solid rgba(255,255,255,.25); border-radius: 50%;
+    }
+    .craft-copy h2 { margin-bottom: 1.5rem; }
+    .craft-copy > p { max-width: 33rem; color: #d0ddd7; font-size: 1.08rem; }
+    .steps { display: grid; gap: 1.4rem; margin: 2.5rem 0 0; padding: 0; list-style: none; }
+    .steps li { display: grid; grid-template-columns: 2.2rem 1fr; gap: 1rem; align-items: start; }
+    .steps span { display: grid; width: 2rem; height: 2rem; place-items: center; border: 1px solid rgba(255,255,255,.34); border-radius: 50%; font-size: .75rem; }
+    .steps strong { display: block; margin-bottom: .2rem; font-family: "Manrope", sans-serif; font-weight: 600; }
+    .steps small { color: #b9cbc3; font-size: .92rem; }
+
+    .gallery { background: #e9e5da; }
+    .gallery-head { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 3rem; }
+    .gallery-note { max-width: 25rem; color: var(--muted); }
+    .gallery-grid { display: grid; grid-template-columns: 1.18fr .82fr; grid-template-rows: repeat(2, minmax(240px, 28vw)); gap: 1rem; }
+    .gallery-item { position: relative; overflow: hidden; border-radius: var(--radius); background: #c8c4ba; }
+    .gallery-item:first-child { grid-row: 1 / 3; }
+    .gallery-item img { height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+    .gallery-item:hover img { transform: scale(1.035); }
+    .gallery-item figcaption {
+      position: absolute; right: 0; bottom: 0; left: 0; display: flex; justify-content: space-between; gap: 1rem;
+      padding: 3.5rem 1.1rem 1rem; color: var(--white); background: linear-gradient(transparent, rgba(7,14,12,.78)); font-size: .82rem;
+    }
+    .gallery-item figcaption a { color: rgba(255,255,255,.72); text-decoration: underline; text-underline-offset: .18rem; }
+    .gallery-strip { display: grid; grid-template-columns: .8fr 1.2fr; gap: 1rem; margin-top: 1rem; }
+    .gallery-strip .gallery-item { aspect-ratio: 16 / 8; }
+
+    .about { background: var(--paper); }
+    .about-layout { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr); gap: clamp(3rem, 8vw, 8rem); }
+    .about-copy h2 { margin-bottom: 1.8rem; }
+    .about-copy > p { max-width: 39rem; color: var(--muted); font-size: 1.08rem; }
+    .about-values { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 3rem; }
+    .about-values strong { display: block; margin-bottom: .4rem; font: 600 1rem/1.3 "Manrope", sans-serif; }
+    .about-values p { color: var(--muted); font-size: .9rem; }
+    .contact-panel { padding: clamp(1.8rem, 4vw, 3.2rem); color: var(--white); background: var(--ink); border-radius: var(--radius); }
+    .contact-panel h3 { margin-bottom: 2rem; font-size: 2rem; }
+    .contact-list { margin: 0; }
+    .contact-item { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem; padding: 1.1rem 0; border-top: 1px solid rgba(255,255,255,.16); }
+    .contact-item dt { color: rgba(255,255,255,.52); font-size: .82rem; }
+    .contact-item dd { margin: 0; color: rgba(255,255,255,.9); }
+    .contact-panel .btn { width: 100%; margin-top: 2rem; }
+    .fictitious { margin-top: 1rem; color: rgba(255,255,255,.48); font-size: .75rem; text-align: center; }
+
+    .site-footer { padding: 3.5rem 0 1.5rem; color: var(--white); background: var(--green-deep); }
+    .footer-main { display: flex; align-items: start; justify-content: space-between; gap: 3rem; padding-bottom: 3rem; }
+    .footer-brand { max-width: 25rem; }
+    .footer-brand .brand { margin-bottom: 1.2rem; }
+    .footer-brand p { color: #aebfb8; }
+    .footer-links { display: grid; grid-template-columns: repeat(2, minmax(120px, 1fr)); gap: 1rem 3rem; }
+    .footer-links a { color: #c8d4cf; font-size: .9rem; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 2rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,.14); color: #829a90; font-size: .77rem; }
+
+    .whatsapp-float {
+      position: fixed; right: clamp(1rem, 3vw, 2rem); bottom: clamp(1rem, 3vw, 2rem); z-index: 35;
+      display: grid; width: 3.7rem; height: 3.7rem; place-items: center; border: 0; border-radius: 50%;
+      color: var(--white); background: var(--green); box-shadow: 0 10px 30px rgba(13,45,37,.3); cursor: pointer;
+      transition: transform .2s ease, background .2s ease;
+    }
+    .whatsapp-float:hover { background: var(--green-deep); transform: translateY(-3px); }
+    .whatsapp-float svg { width: 1.55rem; height: 1.55rem; fill: currentColor; }
+    .toast {
+      position: fixed; right: 1rem; bottom: 6rem; z-index: 60; width: min(390px, calc(100vw - 2rem));
+      padding: 1.2rem 3.1rem 1.2rem 1.25rem; color: var(--white); background: #202a27; border: 1px solid rgba(255,255,255,.12);
+      border-radius: .9rem; box-shadow: var(--shadow); transform: translateY(1rem); opacity: 0; pointer-events: none;
+      transition: transform .25s ease, opacity .25s ease;
+    }
+    .toast.visible { transform: translateY(0); opacity: 1; pointer-events: auto; }
+    .toast strong { display: block; margin-bottom: .25rem; font-family: "Manrope", sans-serif; }
+    .toast p { color: #c5d0cc; font-size: .88rem; line-height: 1.45; }
+    .toast-close { position: absolute; top: .65rem; right: .65rem; width: 2rem; height: 2rem; border: 0; color: #dce6e2; background: transparent; cursor: pointer; }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 900px) {
+      :root { --page: min(100% - 2rem, 720px); }
+      .site-header { inset-block-start: 1rem; }
+      .nav-shell { min-height: 4.3rem; backdrop-filter: none; }
+      .menu-toggle { display: block; z-index: 2; }
+      .nav-links {
+        position: fixed; inset: 0 -1.1rem 0 -1.1rem; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;
+        gap: 1.1rem; padding: 7.5rem 2rem 2rem; overflow-y: auto; color: var(--white); background: var(--green-deep);
+        transform: translateX(100%); visibility: hidden; transition: transform .35s ease, visibility .35s;
+      }
+      .nav-links.open { transform: translateX(0); visibility: visible; }
+      .nav-links a { font: 500 clamp(1.65rem, 7vw, 2.7rem)/1.15 "Manrope", sans-serif; letter-spacing: -.04em; }
+      .nav-links .btn { width: 100%; margin-top: 1.5rem; font-size: 1rem; }
+      .brand { z-index: 2; }
+      .hero { min-height: 860px; }
+      .hero-media::after { background: linear-gradient(90deg, rgba(8,18,15,.8), rgba(8,18,15,.3)), linear-gradient(0deg, rgba(8,18,15,.78), transparent 60%); }
+      .hero-foot { align-items: start; flex-direction: column; gap: 1rem; }
+      .section-lead, .craft-layout, .about-layout { grid-template-columns: 1fr; }
+      .section-lead { gap: 1.5rem; }
+      .service-row { grid-template-columns: 3.2rem 1fr; }
+      .service-row p { grid-column: 2; }
+      .craft-photo { order: 2; }
+      .craft-photo img { max-height: 650px; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 56vw 42vw; }
+      .gallery-item:first-child { grid-column: 1 / 3; grid-row: auto; }
+      .gallery-head { align-items: start; flex-direction: column; }
+      .footer-main { flex-direction: column; }
+    }
+
+    @media (max-width: 620px) {
+      :root { --page: calc(100% - 1.5rem); }
+      .demo-strip { padding-inline: .5rem; font-size: .68rem; }
+      .site-header { top: .65rem; }
+      .nav-shell { padding-left: 1rem; }
+      .brand-copy small { display: none; }
+      .hero { min-height: 790px; }
+      .hero-media img { object-position: 64% center; }
+      .hero-content { padding-bottom: 2rem; }
+      .hero-actions { flex-direction: column; }
+      .hero-actions .btn { width: 100%; }
+      .hero-foot p:last-child { display: none; }
+      section { padding-block: 4.8rem; }
+      .service-list { margin-top: 3rem; }
+      .service-row { grid-template-columns: 2.4rem 1fr; gap: .7rem 1rem; padding: 1.8rem 0; }
+      .craft-layout { gap: 3rem; }
+      .gallery-grid { display: grid; grid-template-columns: 1fr; grid-template-rows: none; }
+      .gallery-item, .gallery-item:first-child { grid-column: auto; grid-row: auto; aspect-ratio: 4 / 3; }
+      .gallery-item:first-child { aspect-ratio: 4 / 5; }
+      .gallery-strip { grid-template-columns: 1fr; }
+      .gallery-strip .gallery-item { aspect-ratio: 4 / 3; }
+      .about-values { grid-template-columns: 1fr; gap: 1.4rem; }
+      .contact-item { grid-template-columns: 1fr; gap: .2rem; }
+      .footer-links { width: 100%; }
+      .footer-bottom { flex-direction: column; gap: .5rem; }
+      .whatsapp-float { width: 3.4rem; height: 3.4rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="demo-strip">Site demonstrativo · Empresa e contatos fictícios</div>
+
+  <header class="site-header" aria-label="Cabeçalho principal">
+    <div class="container nav-shell">
+      <a class="brand" href="#inicio" aria-label="Prisma Estética Automotiva — início">
+        <span class="brand-mark" aria-hidden="true">P</span>
+        <span class="brand-copy"><strong>Prisma</strong><small>Estética Automotiva</small></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir menu"><span></span></button>
+      <nav class="nav-links" id="menu-principal" aria-label="Navegação principal">
+        <a href="#servicos">Serviços</a>
+        <a href="#galeria">Galeria</a>
+        <a href="#sobre">A Prisma</a>
+        <a href="#contato">Contato</a>
+        <a class="btn btn-light" href="#" data-whatsapp>Falar no WhatsApp</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="hero-media" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1608506375591-b90e1f955e4b?auto=format&fit=crop&w=2000&q=82" alt="" width="2000" height="1333" fetchpriority="high">
+      </div>
+      <div class="container hero-content">
+        <div class="hero-copy reveal">
+          <p class="eyebrow light">Cuidado automotivo em Vila Velha</p>
+          <h1 id="hero-title">Seu carro merece esse cuidado.</h1>
+          <p>Limpeza criteriosa, acabamento preciso e proteção bem aplicada — com atenção ao que cada veículo realmente precisa.</p>
+          <div class="hero-actions">
+            <a class="btn btn-light" href="#" data-whatsapp>Pedir orçamento</a>
+            <a class="btn btn-outline" href="#servicos">Conhecer os serviços</a>
+          </div>
+        </div>
+        <div class="hero-foot reveal">
+          <p><strong>Atendimento com hora marcada</strong>Praia da Costa · Vila Velha–ES</p>
+          <p>Segunda a sábado · Consulte os horários</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="services" id="servicos" aria-labelledby="services-title">
+      <div class="container">
+        <div class="section-lead reveal">
+          <div><p class="eyebrow">Serviços</p><h2 id="services-title">O cuidado certo para cada detalhe.</h2></div>
+          <p class="intro">A avaliação inicial define o serviço adequado para o estado e o uso do seu carro. Sem pacotes inflados, sem promessas irreais.</p>
+        </div>
+        <div class="service-list">
+          <article class="service-row reveal">
+            <span class="service-no">01</span><h3>Lavagem detalhada</h3>
+            <p>Limpeza cuidadosa de carroceria, rodas, caixas de roda, vidros e acabamentos, com produtos adequados a cada superfície.</p>
+          </article>
+          <article class="service-row reveal">
+            <span class="service-no">02</span><h3>Polimento técnico</h3>
+            <p>Correção planejada de marcas superficiais e recuperação do brilho da pintura, respeitando os limites do verniz.</p>
+          </article>
+          <article class="service-row reveal">
+            <span class="service-no">03</span><h3>Vitrificação</h3>
+            <p>Aplicação de proteção cerâmica para facilitar a manutenção e preservar o acabamento por mais tempo.</p>
+          </article>
+          <article class="service-row reveal">
+            <span class="service-no">04</span><h3>Higienização interna</h3>
+            <p>Limpeza profunda de bancos, carpetes, teto, painéis e áreas de contato, com atenção aos materiais do interior.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="craft" aria-labelledby="craft-title">
+      <div class="container craft-layout">
+        <div class="craft-photo reveal">
+          <img src="https://images.pexels.com/photos/11139244/pexels-photo-11139244.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Profissional usando politriz no acabamento da pintura de um carro" width="1400" height="1750" loading="lazy">
+        </div>
+        <div class="craft-copy reveal">
+          <p class="eyebrow light">Nosso processo</p>
+          <h2 id="craft-title">Sem atalhos. Só o que faz sentido.</h2>
+          <p>Antes de começar, observamos o veículo e alinhamos a expectativa. O cuidado está tanto na técnica quanto na escolha de não fazer o que não é necessário.</p>
+          <ol class="steps">
+            <li><span>1</span><div><strong>Avaliação</strong><small>Entendemos o uso, o estado e a prioridade do veículo.</small></div></li>
+            <li><span>2</span><div><strong>Execução cuidadosa</strong><small>Produtos, ferramentas e etapas adequados a cada material.</small></div></li>
+            <li><span>3</span><div><strong>Entrega orientada</strong><small>Você recebe recomendações simples para manter o resultado.</small></div></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery" id="galeria" aria-labelledby="gallery-title">
+      <div class="container">
+        <div class="gallery-head reveal">
+          <div><p class="eyebrow">Galeria</p><h2 id="gallery-title">Cuidado que aparece nos detalhes.</h2></div>
+          <p class="gallery-note">Imagens ilustrativas de bancos gratuitos. Não representam serviços reais da empresa demonstrativa.</p>
+        </div>
+        <div class="gallery-grid">
+          <figure class="gallery-item reveal">
+            <img src="https://images.unsplash.com/photo-1575844611398-2a68400b437c?auto=format&fit=crop&w=1400&q=80" alt="Detalhe de automóvel limpo com pintura brilhante" width="1400" height="1750" loading="lazy">
+            <figcaption><span>Acabamento externo</span><a href="https://unsplash.com/photos/sh_7sFEFICI" target="_blank" rel="noopener">Foto: Unsplash</a></figcaption>
+          </figure>
+          <figure class="gallery-item reveal">
+            <img src="https://images.unsplash.com/photo-1746079074556-a91881ed66ff?auto=format&fit=crop&w=1200&q=80" alt="Profissional realizando limpeza cuidadosa no interior de um carro" width="1200" height="900" loading="lazy">
+            <figcaption><span>Higienização interna</span><a href="https://unsplash.com/photos/yYWcUfPSXoM" target="_blank" rel="noopener">Foto: Unsplash</a></figcaption>
+          </figure>
+          <figure class="gallery-item reveal">
+            <img src="https://images.unsplash.com/photo-1565689876697-e467b6c54da2?auto=format&fit=crop&w=1200&q=80" alt="Detalhe de roda e carroceria de automóvel bem cuidado" width="1200" height="900" loading="lazy">
+            <figcaption><span>Rodas e caixas de roda</span><a href="https://unsplash.com/photos/Ce_gQ7Z0eAc" target="_blank" rel="noopener">Foto: Unsplash</a></figcaption>
+          </figure>
+        </div>
+        <div class="gallery-strip">
+          <figure class="gallery-item reveal">
+            <img src="https://images.unsplash.com/photo-1694678505383-676d78ea3b96?auto=format&fit=crop&w=1200&q=80" alt="Superfície de carro limpa refletindo a luz" width="1200" height="675" loading="lazy">
+            <figcaption><span>Pintura e brilho</span><a href="https://unsplash.com/photos/phP5Qa0CauQ" target="_blank" rel="noopener">Foto: Unsplash</a></figcaption>
+          </figure>
+          <figure class="gallery-item reveal">
+            <img src="https://images.unsplash.com/photo-1697252312641-561fba5494c8?auto=format&fit=crop&w=1500&q=80" alt="Carro limpo fotografado em perspectiva" width="1500" height="844" loading="lazy">
+            <figcaption><span>Preservação no dia a dia</span><a href="https://unsplash.com/photos/ze_L46_GOaw" target="_blank" rel="noopener">Foto: Unsplash</a></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="about" id="sobre" aria-labelledby="about-title">
+      <div class="container about-layout">
+        <div class="about-copy reveal">
+          <p class="eyebrow">A Prisma</p>
+          <h2 id="about-title">Estética automotiva feita com critério.</h2>
+          <p>A Prisma é uma empresa fictícia criada para demonstrar como uma estética automotiva local pode se apresentar com clareza. A proposta é simples: atendimento próximo, orientação honesta e cuidado minucioso em cada etapa.</p>
+          <div class="about-values">
+            <div><strong>Atenção individual</strong><p>Cada veículo é observado antes da indicação do serviço.</p></div>
+            <div><strong>Conversa transparente</strong><p>Escopo e expectativas alinhados antes do início.</p></div>
+          </div>
+        </div>
+        <aside class="contact-panel reveal" id="contato" aria-labelledby="contact-title">
+          <p class="eyebrow light">Atendimento</p>
+          <h3 id="contact-title">Vamos cuidar do seu carro?</h3>
+          <dl class="contact-list">
+            <div class="contact-item"><dt>Horários</dt><dd data-business-hours></dd></div>
+            <div class="contact-item"><dt>Endereço</dt><dd data-business-address></dd></div>
+            <div class="contact-item"><dt>Telefone</dt><dd><a href="#" data-business-phone></a></dd></div>
+            <div class="contact-item"><dt>E-mail</dt><dd><a data-business-email></a></dd></div>
+          </dl>
+          <a class="btn btn-light" href="#" data-whatsapp>Pedir orçamento pelo WhatsApp</a>
+          <p class="fictitious">Empresa e contatos fictícios.</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a class="brand" href="#inicio" aria-label="Voltar ao início"><span class="brand-mark" aria-hidden="true">P</span><span class="brand-copy"><strong>Prisma</strong><small>Estética Automotiva</small></span></a>
+          <p>Lavagem, proteção e acabamento automotivo em Vila Velha–ES.</p>
+        </div>
+        <nav class="footer-links" aria-label="Links do rodapé">
+          <a href="#servicos">Serviços</a><a href="#galeria">Galeria</a><a href="#sobre">A Prisma</a><a href="#contato">Contato</a>
+        </nav>
+      </div>
+      <div class="footer-bottom"><span>© <span data-year></span> Prisma Estética Automotiva</span><span>Site demonstrativo · Empresa fictícia</span></div>
+    </div>
+  </footer>
+
+  <button class="whatsapp-float" type="button" data-whatsapp aria-label="Falar no WhatsApp">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.02 3C8.84 3 3 8.73 3 15.77c0 2.48.73 4.9 2.12 6.96L3.72 28l5.49-1.42a13.1 13.1 0 0 0 6.8 1.87h.01C23.2 28.45 29 22.72 29 15.68 29 8.66 23.2 3 16.02 3Zm0 23.3c-2.1 0-4.16-.55-5.95-1.58l-.43-.25-3.26.84.87-3.1-.28-.45a10.53 10.53 0 0 1-1.68-5.7c0-5.82 4.82-10.56 10.74-10.56 5.92 0 10.72 4.7 10.72 10.48 0 5.83-4.82 10.57-10.73 10.57Zm5.89-7.92c-.32-.16-1.91-.93-2.21-1.03-.3-.11-.51-.16-.73.16-.21.31-.83 1.02-1.02 1.23-.18.21-.37.24-.69.08-.32-.15-1.35-.49-2.58-1.57a9.54 9.54 0 0 1-1.78-2.18c-.18-.31-.02-.48.14-.64.14-.14.32-.37.48-.55.16-.18.21-.31.32-.52.1-.2.05-.39-.03-.55-.08-.15-.73-1.72-1-2.36-.26-.63-.53-.54-.73-.55h-.62c-.21 0-.56.08-.86.39-.3.31-1.13 1.09-1.13 2.66s1.17 3.09 1.33 3.3c.16.2 2.3 3.45 5.57 4.84.78.33 1.39.53 1.86.68.78.24 1.49.21 2.05.13.63-.09 1.91-.77 2.18-1.52.27-.75.27-1.39.19-1.52-.08-.13-.3-.21-.62-.36Z"/></svg>
+  </button>
+
+  <div class="toast" role="status" aria-live="polite" aria-atomic="true">
+    <button class="toast-close" type="button" aria-label="Fechar aviso">×</button>
+    <strong>Este é um site demonstrativo</strong>
+    <p>O WhatsApp ainda não foi configurado. Substitua o número na configuração do JavaScript para ativar o contato.</p>
+  </div>
+
+  <script>
+    // Edite somente este objeto para trocar os dados de contato e ativar o WhatsApp.
+    const BUSINESS = {
+      name: "Prisma Estética Automotiva",
+      whatsapp: "", // Exemplo: "5527999999999" (somente números). Vazio mantém o modo demonstração.
+      phoneDisplay: "(27) 99999-0000",
+      email: "contato@prismaestetica.com.br",
+      address: "Rua Exemplo, 120 · Praia da Costa · Vila Velha–ES",
+      hours: "Seg–Sex, 8h–18h · Sáb, 8h–13h",
+      message: "Olá! Gostaria de pedir um orçamento para o meu carro."
+    };
+
+    const $ = (selector, scope = document) => scope.querySelector(selector);
+    const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
+
+    function fillBusinessDetails() {
+      $$('[data-business-hours]').forEach(el => el.textContent = BUSINESS.hours);
+      $$('[data-business-address]').forEach(el => el.textContent = BUSINESS.address);
+      $$('[data-business-phone]').forEach(el => {
+        el.textContent = BUSINESS.phoneDisplay;
+        el.href = `tel:${BUSINESS.phoneDisplay.replace(/\D/g, '')}`;
+      });
+      $$('[data-business-email]').forEach(el => {
+        el.textContent = BUSINESS.email;
+        el.href = `mailto:${BUSINESS.email}`;
+      });
+      $('[data-year]').textContent = new Date().getFullYear();
+    }
+
+    const toast = $('.toast');
+    let toastTimer;
+    function showDemoNotice() {
+      clearTimeout(toastTimer);
+      toast.classList.add('visible');
+      toastTimer = setTimeout(() => toast.classList.remove('visible'), 6500);
+    }
+
+    function handleWhatsApp(event) {
+      event.preventDefault();
+      const number = BUSINESS.whatsapp.replace(/\D/g, '');
+      if (!number) {
+        showDemoNotice();
+        return;
+      }
+      const url = `https://wa.me/${number}?text=${encodeURIComponent(BUSINESS.message)}`;
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+
+    const menuButton = $('.menu-toggle');
+    const menu = $('.nav-links');
+    function closeMenu() {
+      menu.classList.remove('open');
+      menuButton.setAttribute('aria-expanded', 'false');
+      menuButton.setAttribute('aria-label', 'Abrir menu');
+      document.body.classList.remove('menu-open');
+    }
+    menuButton.addEventListener('click', () => {
+      const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+      menu.classList.toggle('open', !isOpen);
+      menuButton.setAttribute('aria-expanded', String(!isOpen));
+      menuButton.setAttribute('aria-label', isOpen ? 'Abrir menu' : 'Fechar menu');
+      document.body.classList.toggle('menu-open', !isOpen);
+    });
+    $$('.nav-links a').forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
+
+    $('[data-whatsapp].whatsapp-float').addEventListener('click', handleWhatsApp);
+    $$('a[data-whatsapp]').forEach(link => link.addEventListener('click', handleWhatsApp));
+    $('.toast-close').addEventListener('click', () => toast.classList.remove('visible'));
+
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .12 });
+      $$('.reveal').forEach(el => observer.observe(el));
+    } else {
+      $$('.reveal').forEach(el => el.classList.add('visible'));
+    }
+
+    fillBusinessDetails();
+  </script>
+</body>
+</html>
